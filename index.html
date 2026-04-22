@@ -1,34 +1,51 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Pokémon 151 Catalog | Home</title>
-    <meta name="description" content="A catalog of Pokémon from the original 151 set" />
-    <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
-  </head>
 
-  <body>
-    <header class="main-header">
-      <h1 class="title">Pokémon 151 Catalog</h1>
-    </header>
+<head>
+  <title>Pokémon 151 Catalog | Home</title>
+  <meta name="description" content="A catalog of Pokémon from the original 151 set" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="scripts.js"></script>
+</head>
 
-    <div id="card-container"></div>
+<body>
+  <header class="main-header">
+    <h1 class="title">Pokémon 151 Catalog</h1>
+  </header>
 
-    <div class="card" style="display: none">
-      <div class="card-content">
-        <h2>Pokémon Name</h2>
-        <img src="" alt="Pokémon Image" />
-        <ul>
-          <li>Type</li>
-          <li>Rarity</li>
-          <li>Owned Status</li>
-        </ul>
-      </div>
+  <div class="controls">
+    <input type="text" id="search-input" placeholder="Search Pokémon..." />
+
+    <select id="owned-filter">
+      <option value="all">All Cards</option>
+      <option value="owned">Owned</option>
+      <option value="missing">Missing</option>
+    </select>
+
+    <select id="sort-select">
+      <option value="none">No Sort</option>
+      <option value="az">A-Z</option>
+    </select>
+  </div>
+
+  <div id="card-container"></div>
+
+  <div class="card" style="display: none">
+    <div class="card-content">
+      <h2>Pokémon Name</h2>
+      <img src="" alt="Pokémon Image" />
+      <ul>
+        <li>Type</li>
+        <li>Rarity</li>
+        <li>Owned Status</li>
+      </ul>
     </div>
+  </div>
 
-    <div class="footer">
-      <button onclick="quoteAlert()">Random Pokémon</button>
-      <button onclick="removeLastCard()">Remove Last Card</button>
-    </div>
-  </body>
+  <div class="footer">
+    <button onclick="quoteAlert()">Random Pokémon</button>
+    <button onclick="removeLastCard()">Remove Last Card</button>
+  </div>
+</body>
+
 </html>

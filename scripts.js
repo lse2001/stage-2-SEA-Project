@@ -145,20 +145,29 @@ const cards = [
   }
 ]
 
-// This function adds cards the page to display the data in the array
-function showCards() {
-  const cardContainer = document.getElementById("card-container");
-  cardContainer.innerHTML = "";
-  const templateCard = document.querySelector(".card");
+let currentFilter = "all";
 
-  for (let i = 0; i < cards.length; i++) {
-    let pokemon = cards[i];
+let currentSort = "none";
 
-    const nextCard = templateCard.cloneNode(true); // Copy the template card
-    editCardContent(nextCard, pokemon); // Edit card content
-    cardContainer.appendChild(nextCard); // Add new card to the container
-  }
-}
+// Sets up dropdown event listeners and renders cards on initial page load
+document.addEventListener("DOMContentLoaded", () => {
+  const filterSelect = document.getElementById("owned-filter");
+  const sortSelect = document.getElementById("sort-select");
+
+  filterSelect.addEventListener("change", () => {
+    currentFilter = filterSelect.value;
+    showCards();
+  });
+
+  sortSelect.addEventListener("change", () => {
+    currentSort = sortSelect.value;
+    showCards();
+  });
+
+  showCards();
+});
+
+
 
 // This function fills in the card content
 function editCardContent(card, pokemon) {
@@ -178,18 +187,45 @@ function editCardContent(card, pokemon) {
   listItems[0].textContent = "Type: " + pokemon.type;
   listItems[1].textContent = "Rarity: " + pokemon.rarity;
   listItems[2].textContent = pokemon.owned ? "Owned" : "Missing";
-}
-// This calls the addCards() function when the page is first loaded
-document.addEventListener("DOMContentLoaded", showCards);
 
-function quoteAlert() {
-  console.log("Button Clicked!");
-  alert(
-    "I guess I can kiss heaven goodbye, because it got to be a sin to look this good!",
-  );
+  if (pokemon.owned) {
+  card.classList.add("owned");
+} else {
+  card.classList.add("missing");
+}
 }
 
-function removeLastCard() {
-  titles.pop(); // Remove last item in titles array
-  showCards(); // Call showCards again to refresh
+// sorts cards alphabetically by name
+function sortCards(cards) {
+  if (currentSort === "az") {
+    return [...cards].sort((a, b) => a.name.localeCompare(b.name));
+  }
+  return cards;
+}
+
+// filters cards based on current owned/missing selection
+function filterCards(cards) {
+  if (currentFilter === "owned") {
+    return cards.filter(p => p.owned);
+  } else if (currentFilter === "missing") {
+    return cards.filter(p => !p.owned);
+  }
+  return cards;
+}
+
+// This function adds cards the page to display the data in the array
+function showCards() {
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
+  const templateCard = document.querySelector(".card");
+
+  const filtered = filterCards(cards);
+  const sorted = sortCards(filtered);
+
+  for (let i = 0; i < sorted.length; i++) {
+    const pokemon = sorted[i];
+    const nextCard = templateCard.cloneNode(true);
+    editCardContent(nextCard, pokemon);
+    cardContainer.appendChild(nextCard);
+  }
 }
