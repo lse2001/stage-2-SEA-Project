@@ -91,3 +91,11 @@ button {
   justify-content: center;
   margin: 20px 0;
 }
+
+.subtitle {
+  text-align: center;
+  color: white;
+  font-family: "Helvetica";
+  font-size: 18px;
+  margin-top: 10px;
+}
