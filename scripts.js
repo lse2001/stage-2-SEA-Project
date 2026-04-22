@@ -146,13 +146,20 @@ const cards = [
 ]
 
 let currentFilter = "all";
-
 let currentSort = "none";
+let searchQuery = "";
 
 // Sets up dropdown event listeners and renders cards on initial page load
+// Sets up control event listeners and renders cards on initial page load
 document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("search-input");
   const filterSelect = document.getElementById("owned-filter");
   const sortSelect = document.getElementById("sort-select");
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value;
+    showCards();
+  });
 
   filterSelect.addEventListener("change", () => {
     currentFilter = filterSelect.value;
@@ -213,13 +220,25 @@ function filterCards(cards) {
   return cards;
 }
 
+// filters cards based on the current search input
+function searchCards(cards) {
+  if (searchQuery === "") {
+    return cards;
+  }
+
+  return cards.filter(pokemon =>
+    pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+}
+
 // This function adds cards the page to display the data in the array
 function showCards() {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   const templateCard = document.querySelector(".card");
 
-  const filtered = filterCards(cards);
+  const searched = searchCards(cards);
+  const filtered = filterCards(searched);
   const sorted = sortCards(filtered);
 
   for (let i = 0; i < sorted.length; i++) {
